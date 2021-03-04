@@ -2,6 +2,7 @@ name: flutter_dropzone
 description: A drag-and-drop Flutter plugin (Web only).
 version: 1.0.10
 homepage: https://github.com/deakjahn/flutter_dropzone
+publish_to: none
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -11,8 +12,12 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_dropzone_platform_interface: ^1.0.3
-  flutter_dropzone_web: ^1.0.10
+  # flutter_dropzone_platform_interface: ^1.0.3
+  # flutter_dropzone_web: ^1.0.10
+  flutter_dropzone_platform_interface:
+    path: ../flutter_dropzone_platform_interface/
+  flutter_dropzone_web:
+    path: ../flutter_dropzone_web/
 
 dev_dependencies:
   flutter_test:

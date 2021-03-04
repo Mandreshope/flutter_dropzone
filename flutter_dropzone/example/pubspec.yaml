@@ -14,7 +14,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_dropzone: ^1.0.4
+  # flutter_dropzone: ^1.0.4
+  flutter_dropzone:
+    path: ../../flutter_dropzone/
   pedantic: ^1.9.0
 
 dev_dependency_overrides:

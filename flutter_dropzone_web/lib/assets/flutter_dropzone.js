@@ -28,19 +28,11 @@ if (typeof FlutterDropzone === 'undefined') {
     }
 
     imgDrop_handler(event) {
-      // Niveau 1 => Retour valeur “asdf”
-      // onImgDrop(String val) {
-      //   Print(val); // asdf
-      // }
-      
-      // var val = "asdf";
 
       event.preventDefault();
+  
+      var os = getOS();
 
-      // this.onDrop(event, val)
-      var os = getOS();
-      var os = getOS();
-      alert('Platform : '+getOS());
       var imageUrl;
       if(os == 'Windows') {
         imageUrl = event.dataTransfer.getData('Text');

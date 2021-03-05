@@ -1,8 +1,9 @@
 if (typeof FlutterDropzone === 'undefined') {
   class FlutterDropzone {
-    constructor(container, onLoaded, onError, onHover, onDrop, onLeave) {
+    constructor(container, onLoaded, onError, onHover, onDrop, onImgDrop, onLeave) {
       this.onHover = onHover;
       this.onDrop = onDrop;
+      this.onImgDrop = onImgDrop;
       this.onLeave = onLeave;
       this.dropMIME = null;
       this.dropOperation = 'copy';
@@ -10,6 +11,7 @@ if (typeof FlutterDropzone === 'undefined') {
       container.addEventListener('dragover', this.dragover_handler.bind(this));
       container.addEventListener('dragleave', this.dragleave_handler.bind(this));
       container.addEventListener('drop', this.drop_handler.bind(this));
+      container.addEventListener('drop', this.imgDrop_handler.bind(this))
   
       if (onLoaded != null) onLoaded();
     }
@@ -24,17 +26,17 @@ if (typeof FlutterDropzone === 'undefined') {
       event.preventDefault();
       if (this.onLeave != null) this.onLeave(event);
     }
-  
-    drop_handler(event) {
+
+    imgDrop_handler(event) {
       // Niveau 1 => Retour valeur “asdf”
       // onImgDrop(String val) {
       //   Print(val); // asdf
       // }
-  
+      
       // var val = "asdf";
-  
+
       event.preventDefault();
-  
+
       // this.onDrop(event, val)
       var os = getOS();
       var os = getOS();
@@ -45,22 +47,23 @@ if (typeof FlutterDropzone === 'undefined') {
       }else if(os == 'Mac OS'){
         imageUrl = event.dataTransfer.getData('URL');
       }
+      this.onImgDrop(event, imageUrl);
+    }
   
-      console.log(event.dataTransfer.items);
-      
+    drop_handler(event) {
+
+      event.preventDefault();
+
       if (event.dataTransfer.items) {
         for (var i = 0; i < event.dataTransfer.items.length; i++) {
           var item = event.dataTransfer.items[i];
-          var file = event.dataTransfer.items[i].getAsFile();
-          this.onDrop(event, file);
           var match = (item.kind === 'file');
           if (this.dropMIME != null && !this.dropMIME.includes(item.mime))
             match = false;
+  
           if (match) {
             var file = event.dataTransfer.items[i].getAsFile();
             this.onDrop(event, file);
-          }else {
-            this.onDrop(event, imageUrl);
           }
         }
       } else {
@@ -95,8 +98,8 @@ if (typeof FlutterDropzone === 'undefined') {
       container.style.cursor = cursor;
     },
   
-    create: function(container, onLoaded, onError, onHover, onDrop, onLeave) {
-      container.FlutterDropzone = new FlutterDropzone(container, onLoaded, onError, onHover, onDrop, onLeave);
+    create: function(container, onLoaded, onError, onHover, onDrop, onImgDrop, onLeave) {
+      container.FlutterDropzone = new FlutterDropzone(container, onLoaded, onError, onHover, onDrop, onImgDrop, onLeave);
     },
   };
   

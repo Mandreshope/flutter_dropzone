@@ -6,7 +6,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone_platform_interface/flutter_dropzone_platform_interface.dart';
 
-typedef DropzoneViewCreatedCallback = void Function(DropzoneViewController controller);
+typedef DropzoneViewCreatedCallback = void Function(
+    DropzoneViewController controller);
 
 // https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
 // https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/File_drag_and_drop
@@ -30,6 +31,9 @@ class DropzoneView extends StatefulWidget {
   /// Event called when the user drops a file onto the dropzone.
   final ValueChanged<dynamic> onDrop;
 
+  /// Event called when the user drops a img onto the dropzone.
+  final ValueChanged<dynamic> onImgDrop;
+
   /// Event called when the user leaves a dropzone.
   final VoidCallback onLeave;
 
@@ -44,6 +48,7 @@ class DropzoneView extends StatefulWidget {
     this.onError,
     this.onHover,
     @required this.onDrop,
+    @required this.onImgDrop,
     this.onLeave,
   }) : super(key: key);
 
@@ -61,7 +66,8 @@ class _DropzoneViewState extends State<DropzoneView> {
       'cursor': widget.cursor,
       'mime': widget.mime,
     };
-    return FlutterDropzonePlatform.instance.buildView(params, widget.gestureRecognizers, (viewId) {
+    return FlutterDropzonePlatform.instance
+        .buildView(params, widget.gestureRecognizers, (viewId) {
       final ctrl = DropzoneViewController._create(viewId, widget);
       _controller.complete(ctrl);
       widget.onCreated?.call(ctrl);
@@ -74,7 +80,8 @@ class DropzoneViewController {
   final int viewId;
   final DropzoneView widget;
 
-  DropzoneViewController._create(this.viewId, this.widget) : assert(FlutterDropzonePlatform.instance != null) {
+  DropzoneViewController._create(this.viewId, this.widget)
+      : assert(FlutterDropzonePlatform.instance != null) {
     if (widget.onLoaded != null) {
       FlutterDropzonePlatform.instance //
           .onLoaded(viewId: viewId)
@@ -92,19 +99,25 @@ class DropzoneViewController {
     }
     if (widget.onDrop != null) {
       FlutterDropzonePlatform.instance //
-        .onDrop(viewId: viewId)
-        .listen((msg) => widget.onDrop(msg.value));
+          .onDrop(viewId: viewId)
+          .listen((msg) => widget.onDrop(msg.value));
+    }
+    if (widget.onImgDrop != null) {
+      FlutterDropzonePlatform.instance //
+          .onImgDrop(viewId: viewId)
+          .listen((msg) => widget.onImgDrop(msg.value));
     }
     if (widget.onLeave != null) {
       FlutterDropzonePlatform.instance //
-        .onLeave(viewId: viewId)
-        .listen((msg) => widget.onLeave());
+          .onLeave(viewId: viewId)
+          .listen((msg) => widget.onLeave());
     }
   }
 
   /// Specify the [DragOperation] while dragging the file.
   Future<bool> setOperation(DragOperation operation) {
-    return FlutterDropzonePlatform.instance.setOperation(operation, viewId: viewId);
+    return FlutterDropzonePlatform.instance
+        .setOperation(operation, viewId: viewId);
   }
 
   /// Specify the [CursorType] of the dropzone. [CursorType] is one the CSS cursor types.
@@ -127,33 +140,39 @@ class DropzoneViewController {
 
   /// Get the filename of the passed HTML file.
   Future<String> getFilename(dynamic htmlFile) {
-    return FlutterDropzonePlatform.instance.getFilename(htmlFile, viewId: viewId);
+    return FlutterDropzonePlatform.instance
+        .getFilename(htmlFile, viewId: viewId);
   }
 
   /// Get the size of the passed HTML file.
   Future<int> getFileSize(dynamic htmlFile) {
-    return FlutterDropzonePlatform.instance.getFileSize(htmlFile, viewId: viewId);
+    return FlutterDropzonePlatform.instance
+        .getFileSize(htmlFile, viewId: viewId);
   }
 
   /// Get the MIME type of the passed HTML file.
   Future<String> getFileMIME(dynamic htmlFile) {
-    return FlutterDropzonePlatform.instance.getFileMIME(htmlFile, viewId: viewId);
+    return FlutterDropzonePlatform.instance
+        .getFileMIME(htmlFile, viewId: viewId);
   }
 
   /// Create a temporary URL to the passed HTML file.
   ///
   /// When finished, the URL should be released using [releaseFileUrl()].
   Future<String> createFileUrl(dynamic htmlFile) {
-    return FlutterDropzonePlatform.instance.createFileUrl(htmlFile, viewId: viewId);
+    return FlutterDropzonePlatform.instance
+        .createFileUrl(htmlFile, viewId: viewId);
   }
 
   /// Release a temporary URL previously created using [createFileUrl()].
   Future<bool> releaseFileUrl(String fileUrl) {
-    return FlutterDropzonePlatform.instance.releaseFileUrl(fileUrl, viewId: viewId);
+    return FlutterDropzonePlatform.instance
+        .releaseFileUrl(fileUrl, viewId: viewId);
   }
 
   /// Get the contents of the passed HTML file.
   Future<Uint8List> getFileData(dynamic htmlFile) {
-    return FlutterDropzonePlatform.instance.getFileData(htmlFile, viewId: viewId);
+    return FlutterDropzonePlatform.instance
+        .getFileData(htmlFile, viewId: viewId);
   }
 }

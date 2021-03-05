@@ -51,7 +51,10 @@ class _MyAppState extends State<MyApp> {
         builder: (context) => DropzoneView(
           operation: DragOperation.copy,
           cursor: CursorType.grab,
-          onCreated: (ctrl) => controller1 = ctrl,
+          onCreated: (ctrl) {
+            controller1 = ctrl;
+            print(controller1.viewId);
+          },
           onLoaded: () => print('Zone 1 loaded'),
           onError: (ev) => print('Zone 1 error: $ev'),
           onHover: () {
@@ -69,13 +72,23 @@ class _MyAppState extends State<MyApp> {
               highlighted1 = false;
             });
           },
+          onImgDrop: (event) {
+            print('Zone 1 onImgDrop: $event');
+            setState(() {
+              message1 = '${event} dropped';
+              highlighted1 = false;
+            });
+          },
         ),
       );
 
   Widget buildZone2(BuildContext context) => Builder(
         builder: (context) => DropzoneView(
           operation: DragOperation.move,
-          onCreated: (ctrl) => controller2 = ctrl,
+          onCreated: (ctrl) {
+            controller2 = ctrl;
+            print(controller2.viewId);
+          },
           onLoaded: () => print('Zone 2 loaded'),
           onError: (ev) => print('Zone 2 error: $ev'),
           onHover: () => print('Zone 2 hovered'),
@@ -84,6 +97,12 @@ class _MyAppState extends State<MyApp> {
             print('Zone 2 drop: ${ev.name}');
             setState(() {
               message2 = '${ev.name} dropped';
+            });
+          },
+          onImgDrop: (event) {
+            print('Zone 2 onImgDrop: $event');
+            setState(() {
+              message2 = '${event} dropped';
             });
           },
         ),

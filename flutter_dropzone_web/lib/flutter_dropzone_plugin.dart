@@ -26,14 +26,17 @@ class FlutterDropzonePlugin extends FlutterDropzonePlatform {
     FlutterDropzonePlatform.instance = self;
 
     // ignore: undefined_prefixed_name
-    ui.platformViewRegistry.registerViewFactory('com.creativephotocloud.plugins/dropzone', (viewId) {
+    ui.platformViewRegistry.registerViewFactory(
+        'com.creativephotocloud.plugins/dropzone', (viewId) {
       final view = _views[viewId] = FlutterDropzoneView(viewId);
       return view.container;
     });
 
     if (const bool.fromEnvironment('FLUTTER_WEB_USE_SKIA', defaultValue: false))
       html.document.head.append(
-        html.StyleElement()..innerText = '@keyframes dropzoneReady {from { clip: rect(1px, auto, auto, auto); } to { clip: rect(0px, auto, auto, auto); }}',
+        html.StyleElement()
+          ..innerText =
+              '@keyframes dropzoneReady {from { clip: rect(1px, auto, auto, auto); } to { clip: rect(0px, auto, auto, auto); }}',
       );
 
     html.document.body.append(html.ScriptElement()
@@ -98,7 +101,11 @@ class FlutterDropzonePlugin extends FlutterDropzonePlatform {
   }
 
   @override
-  Widget buildView(Map<String, dynamic> creationParams, Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers, PlatformViewCreatedCallback onPlatformViewCreated) => FutureBuilder<bool>(
+  Widget buildView(
+          Map<String, dynamic> creationParams,
+          Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers,
+          PlatformViewCreatedCallback onPlatformViewCreated) =>
+      FutureBuilder<bool>(
         future: _isReady,
         builder: (context, snapshot) {
           if (snapshot.hasData) {

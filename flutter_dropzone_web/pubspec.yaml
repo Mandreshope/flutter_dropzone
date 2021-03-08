@@ -15,8 +15,13 @@ dependencies:
     sdk: flutter
 
   # flutter_dropzone_platform_interface: ^1.0.3
+  # flutter_dropzone_platform_interface: 
+  #   path: "../flutter_dropzone_platform_interface"
   flutter_dropzone_platform_interface: 
-    path: "../flutter_dropzone_platform_interface"
+    git:
+      url: git://github.com/Mandreshope/flutter_dropzone.git
+      ref: feature/on-img-drop
+      path: flutter_dropzone_platform_interface
   js: ^0.6.1+1
   http: 
 

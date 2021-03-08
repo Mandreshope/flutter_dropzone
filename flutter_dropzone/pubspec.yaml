@@ -14,10 +14,20 @@ dependencies:
 
   # flutter_dropzone_platform_interface: ^1.0.3
   # flutter_dropzone_web: ^1.0.10
-  flutter_dropzone_platform_interface:
-    path: ../flutter_dropzone_platform_interface/
-  flutter_dropzone_web:
-    path: ../flutter_dropzone_web/
+  # flutter_dropzone_platform_interface:
+  #   path: ../flutter_dropzone_platform_interface/
+  # flutter_dropzone_web:
+  #   path: ../flutter_dropzone_web/
+  flutter_dropzone_platform_interface: 
+    git:
+      url: git://github.com/Mandreshope/flutter_dropzone.git
+      ref: feature/on-img-drop
+      path: flutter_dropzone_platform_interface
+  flutter_dropzone_web: 
+    git:
+      url: git://github.com/Mandreshope/flutter_dropzone.git
+      ref: feature/on-img-drop
+      path: flutter_dropzone_web
 
 dev_dependencies:
   flutter_test:

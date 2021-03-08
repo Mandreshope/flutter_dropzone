@@ -211,8 +211,8 @@ class DropzoneDropEvent extends DropzoneEvent<dynamic> {
   DropzoneDropEvent(int viewId, dynamic file) : super(viewId, file);
 }
 
-class DropzoneImgDropEvent extends DropzoneEvent<dynamic> {
-  DropzoneImgDropEvent(int viewId, dynamic file) : super(viewId, file);
+class DropzoneImgDropEvent extends DropzoneEvent<Uint8List> {
+  DropzoneImgDropEvent(int viewId, Uint8List file) : super(viewId, file);
 }
 
 /// Event called when the user leaves a dropzone.

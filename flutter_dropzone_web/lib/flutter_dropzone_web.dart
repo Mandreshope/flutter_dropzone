@@ -8,6 +8,7 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dropzone_platform_interface/flutter_dropzone_platform_interface.dart';
 import 'package:js/js.dart';
+import 'package:http/http.dart' as http;
 
 class FlutterDropzoneView {
   final int viewId;
@@ -116,9 +117,26 @@ class FlutterDropzoneView {
       FlutterDropzonePlatform.instance.events
           .add(DropzoneDropEvent(viewId, data));
 
-  void _onImgDrop(MouseEvent event, dynamic data) =>
+  Future<void> _onImgDrop(MouseEvent event, String data) async {
+    if (data.isEmpty) {
+      return;
+    }
+    try {
+      String url = data;
+      Uint8List bytes = await _networkImageToBase64(url);
       FlutterDropzonePlatform.instance.events
-          .add(DropzoneImgDropEvent(viewId, data));
+          .add(DropzoneImgDropEvent(viewId, bytes));
+    } catch (e) {
+      _onError(e.toString());
+    }
+  }
+
+  Future<Uint8List> _networkImageToBase64(String imageUrl) async {
+    http.Response response = await http.get(imageUrl);
+    print(response.headers['content-type']);
+    final bytes = response?.bodyBytes;
+    return bytes;
+  }
 
   void _onLeave(MouseEvent event) =>
       FlutterDropzonePlatform.instance.events.add(DropzoneLeaveEvent(viewId));

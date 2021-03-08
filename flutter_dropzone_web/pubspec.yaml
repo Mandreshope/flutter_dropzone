@@ -18,6 +18,7 @@ dependencies:
   flutter_dropzone_platform_interface: 
     path: "../flutter_dropzone_platform_interface"
   js: ^0.6.1+1
+  http: 
 
 dev_dependencies:
   flutter_test:

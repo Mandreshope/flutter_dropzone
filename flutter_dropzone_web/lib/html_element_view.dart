@@ -12,21 +12,30 @@ class HtmlElementViewEx extends HtmlElementView {
   final PlatformViewCreatedCallback onPlatformViewCreated; //!!!
   final dynamic creationParams;
 
-  const HtmlElementViewEx({Key key, @required String viewType, this.onPlatformViewCreated, this.creationParams}) : super(key: key, viewType: viewType);
+  const HtmlElementViewEx(
+      {Key key,
+      @required String viewType,
+      this.onPlatformViewCreated,
+      this.creationParams})
+      : super(key: key, viewType: viewType);
 
   @override
   Widget build(BuildContext context) => PlatformViewLink(
         viewType: viewType,
         onCreatePlatformView: _createHtmlElementView,
-        surfaceFactory: (BuildContext context, PlatformViewController controller) => PlatformViewSurface(
+        surfaceFactory:
+            (BuildContext context, PlatformViewController controller) =>
+                PlatformViewSurface(
           controller: controller,
           gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
           hitTestBehavior: PlatformViewHitTestBehavior.opaque,
         ),
       );
 
-  _HtmlElementViewControllerEx _createHtmlElementView(PlatformViewCreationParams params) {
-    final _HtmlElementViewControllerEx controller = _HtmlElementViewControllerEx(params.id, viewType);
+  _HtmlElementViewControllerEx _createHtmlElementView(
+      PlatformViewCreationParams params) {
+    final _HtmlElementViewControllerEx controller =
+        _HtmlElementViewControllerEx(params.id, viewType);
     controller._initialize().then((_) {
       params.onPlatformViewCreated(params.id);
       onPlatformViewCreated(params.id); //!!!
@@ -44,7 +53,8 @@ class _HtmlElementViewControllerEx extends PlatformViewController {
   _HtmlElementViewControllerEx(this.viewId, this.viewType);
 
   Future<void> _initialize() async {
-    await SystemChannels.platform_views.invokeMethod<void>('create', {'id': viewId, 'viewType': viewType});
+    await SystemChannels.platform_views
+        .invokeMethod<void>('create', {'id': viewId, 'viewType': viewType});
     _initialized = true;
   }
 
@@ -56,7 +66,8 @@ class _HtmlElementViewControllerEx extends PlatformViewController {
 
   @override
   Future<void> dispose() {
-    if (_initialized) SystemChannels.platform_views.invokeMethod<void>('dispose', viewId);
+    if (_initialized)
+      SystemChannels.platform_views.invokeMethod<void>('dispose', viewId);
     return null;
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 
@@ -13,7 +15,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   DropzoneViewController controller1;
   DropzoneViewController controller2;
-  String onImgDropUrl = '';
+  Uint8List bytes;
   String message1 = 'Drop something here';
   String message2 = 'Drop something here';
   bool highlighted1 = false;
@@ -27,31 +29,22 @@ class _MyAppState extends State<MyApp> {
           body: Column(
             children: [
               Expanded(
-                  child: Image.network(onImgDropUrl, errorBuilder:
-                      (BuildContext context, Object exception,
-                          StackTrace stackTrace) {
-                // Appropriate logging or analytics, e.g.
-                // myAnalytics.recordError(
-                //   'An error occurred loading "https://example.does.not.exist/image.jpg"',
-                //   exception,
-                //   stackTrace,
-                // );
-                return Text(
-                  'Error loading image url',
-                  style: TextStyle(color: Theme.of(context).errorColor),
-                );
-              }, loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent loadingProgress) {
-                if (loadingProgress == null) return child;
-                return Center(
-                  child: CircularProgressIndicator(
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                            loadingProgress.expectedTotalBytes
-                        : null,
-                  ),
-                );
-              })),
+                  child: bytes == null
+                      ? Container()
+                      : Image.memory(bytes, errorBuilder: (BuildContext context,
+                          Object exception, StackTrace stackTrace) {
+                          // Appropriate logging or analytics, e.g.
+                          // myAnalytics.recordError(
+                          //   'An error occurred loading "https://example.does.not.exist/image.jpg"',
+                          //   exception,
+                          //   stackTrace,
+                          // );
+                          return Text(
+                            'Error loading image url',
+                            style:
+                                TextStyle(color: Theme.of(context).errorColor),
+                          );
+                        })),
               Expanded(
                 child: Container(
                   color: highlighted1 ? Colors.red : Colors.transparent,
@@ -102,9 +95,9 @@ class _MyAppState extends State<MyApp> {
             });
           },
           onImgDrop: (event) {
-            print('Zone 1 onImgDrop: $event');
+            print('Zone 1 onImgDrop: called');
             setState(() {
-              onImgDropUrl = '$event';
+              bytes = event;
               highlighted1 = false;
             });
           },
@@ -129,9 +122,9 @@ class _MyAppState extends State<MyApp> {
             });
           },
           onImgDrop: (event) {
-            print('Zone 2 onImgDrop: $event');
+            print('Zone 2 onImgDrop called');
             setState(() {
-              onImgDropUrl = '$event';
+              bytes = event;
             });
           },
         ),

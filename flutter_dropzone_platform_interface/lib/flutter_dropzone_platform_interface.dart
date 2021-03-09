@@ -51,7 +51,6 @@ enum CursorType {
 abstract class FlutterDropzonePlatform extends PlatformInterface {
   static final _token = Object();
   final events = StreamController<DropzoneEvent>.broadcast();
-  final onDropEvents = StreamController<DropzoneEvent>.broadcast();
   static FlutterDropzonePlatform _instance = MethodChannelFlutterDropzone();
 
   FlutterDropzonePlatform() : super(token: _token);
@@ -152,14 +151,14 @@ abstract class FlutterDropzonePlatform extends PlatformInterface {
 
   /// Event called when the user drops a file onto the dropzone.
   Stream<DropzoneDropEvent> onDrop({@required int viewId}) {
-    return onDropEvents.stream //
+    return events.stream //
         .where((event) => event.viewId == viewId && event is DropzoneDropEvent)
         .cast<DropzoneDropEvent>();
   }
 
   /// Event called when the user drops a image unto the dropzone.
   Stream<DropzoneImgDropEvent> onImgDrop({@required int viewId}) {
-    return onDropEvents.stream //
+    return events.stream //
         .where(
             (event) => event.viewId == viewId && event is DropzoneImgDropEvent)
         .cast<DropzoneImgDropEvent>();

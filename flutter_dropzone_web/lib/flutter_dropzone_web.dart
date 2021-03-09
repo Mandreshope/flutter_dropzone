@@ -27,9 +27,9 @@ class FlutterDropzoneView {
           'dropzoneReady' // idea from https://keithclark.co.uk/articles/working-with-elements-before-the-dom-is-ready/
       ..style.animationDuration = '0.001s'
       ..addEventListener('animationstart', (event) {
-        print('dart called everytime when animation start');
+        print('$runtimeType called everytime when animation start');
         if (isRunInFirstTime) {
-          print('dart called on first time');
+          print('$runtimeType called on first time when animation start');
           _nativeCreate(
             container,
             allowInterop(_onLoaded),

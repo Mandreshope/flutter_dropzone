@@ -16,6 +16,7 @@ class FlutterDropzoneView {
   List<String> mime;
   DragOperation operation;
   CursorType cursor;
+  bool isRunInFirstTime = true;
 
   FlutterDropzoneView(this.viewId) {
     container = DivElement()
@@ -26,18 +27,23 @@ class FlutterDropzoneView {
           'dropzoneReady' // idea from https://keithclark.co.uk/articles/working-with-elements-before-the-dom-is-ready/
       ..style.animationDuration = '0.001s'
       ..addEventListener('animationstart', (event) {
-        _nativeCreate(
-          container,
-          allowInterop(_onLoaded),
-          allowInterop(_onError),
-          allowInterop(_onHover),
-          allowInterop(_onDrop),
-          allowInterop(_onImgDrop),
-          allowInterop(_onLeave),
-        );
+        print('dart called everytime when animation start');
+        if (isRunInFirstTime) {
+          print('dart called on first time');
+          _nativeCreate(
+            container,
+            allowInterop(_onLoaded),
+            allowInterop(_onError),
+            allowInterop(_onHover),
+            allowInterop(_onDrop),
+            allowInterop(_onImgDrop),
+            allowInterop(_onLeave),
+          );
+        }
         if (mime != null) setMIME(mime);
         if (operation != null) setOperation(operation);
         if (cursor != null) setCursor(cursor);
+        isRunInFirstTime = false;
       });
     if (!_isCanvasKit())
       container.append(
@@ -114,7 +120,7 @@ class FlutterDropzoneView {
       FlutterDropzonePlatform.instance.events.add(DropzoneHoverEvent(viewId));
 
   void _onDrop(MouseEvent event, File data) =>
-      FlutterDropzonePlatform.instance.onDropEvents
+      FlutterDropzonePlatform.instance.events
           .add(DropzoneDropEvent(viewId, data));
 
   Future<void> _onImgDrop(MouseEvent event, String data) async {
@@ -124,7 +130,7 @@ class FlutterDropzoneView {
     try {
       String url = data;
       Uint8List bytes = await _networkImageToBase64(url);
-      FlutterDropzonePlatform.instance.onDropEvents
+      FlutterDropzonePlatform.instance.events
           .add(DropzoneImgDropEvent(viewId, bytes));
     } catch (e) {
       _onError(e.toString());

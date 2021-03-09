@@ -47,27 +47,32 @@ class _MyAppState extends State<MyApp> {
           appBar: AppBar(
             title: const Text('Dropzone example'),
           ),
-          body: Column(
-            children: [
-              Expanded(
-                  child: bytes == null
-                      ? Container()
-                      : Image.memory(bytes, errorBuilder: (BuildContext context,
-                          Object exception, StackTrace stackTrace) {
-                          // Appropriate logging or analytics, e.g.
-                          // myAnalytics.recordError(
-                          //   'An error occurred loading "https://example.does.not.exist/image.jpg"',
-                          //   exception,
-                          //   stackTrace,
-                          // );
-                          return Text(
-                            'Error loading image url',
-                            style:
-                                TextStyle(color: Theme.of(context).errorColor),
-                          );
-                        })),
-              Expanded(
-                child: Container(
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                    height: 100,
+                    width: double.infinity,
+                    child: bytes == null
+                        ? Container()
+                        : Image.memory(bytes, errorBuilder:
+                            (BuildContext context, Object exception,
+                                StackTrace stackTrace) {
+                            // Appropriate logging or analytics, e.g.
+                            // myAnalytics.recordError(
+                            //   'An error occurred loading "https://example.does.not.exist/image.jpg"',
+                            //   exception,
+                            //   stackTrace,
+                            // );
+                            return Text(
+                              'Error loading image url',
+                              style: TextStyle(
+                                  color: Theme.of(context).errorColor),
+                            );
+                          })),
+                Container(
+                  height: 50,
+                  width: double.infinity,
                   color: highlighted1 ? Colors.red : Colors.transparent,
                   child: Stack(
                     children: [
@@ -82,55 +87,53 @@ class _MyAppState extends State<MyApp> {
                     ],
                   ),
                 ),
-              ),
-              // Expanded(
-              //   child: Stack(
-              //     children: [
-              //       buildZone2(context),
-              //       Center(child: Text(message2)),
-              //     ],
-              //   ),
-              // ),
-            ],
+                // Expanded(
+                //   child: Stack(
+                //     children: [
+                //       buildZone2(context),
+                //       Center(child: Text(message2)),
+                //     ],
+                //   ),
+                // ),
+              ],
+            ),
           ),
         ),
       );
 
-  Widget buildZone1(BuildContext context) {
-    print('DropzoneView rebuild');
-    return DropzoneView(
-      operation: DragOperation.copy,
-      cursor: CursorType.grab,
-      onCreated: (ctrl) {
-        controller1 = ctrl;
-        print('viewId: ${controller1.viewId}');
-      },
-      onLoaded: () => print('Zone 1 loaded'),
-      onError: (ev) => print('Zone 1 error: $ev'),
-      onHover: () {
-        setState(() => highlighted1 = true);
-        print('Zone 1 hovered');
-      },
-      onLeave: () {
-        setState(() => highlighted1 = false);
-        print('Zone 1 left');
-      },
-      onDrop: (ev) {
-        print('Zone 1 drop: ${ev.name}');
-        setState(() {
-          message1 = '${ev.name} dropped';
-          highlighted1 = false;
-        });
-      },
-      onImgDrop: (event) {
-        print('Zone 1 onImgDrop: called');
-        setState(() {
-          bytes = event;
-          highlighted1 = false;
-        });
-      },
-    );
-  }
+  Widget buildZone1(BuildContext context) => Builder(
+      builder: (context) => DropzoneView(
+            operation: DragOperation.copy,
+            cursor: CursorType.grab,
+            onCreated: (ctrl) {
+              controller1 = ctrl;
+              print('viewId: ${controller1.viewId}');
+            },
+            onLoaded: () => print('Zone 1 loaded'),
+            onError: (ev) => print('Zone 1 error: $ev'),
+            onHover: () {
+              setState(() => highlighted1 = true);
+              print('Zone 1 hovered');
+            },
+            onLeave: () {
+              setState(() => highlighted1 = false);
+              print('Zone 1 left');
+            },
+            onDrop: (ev) {
+              print('Zone 1 drop: ${ev.name}');
+              setState(() {
+                message1 = '${ev.name} dropped';
+                highlighted1 = false;
+              });
+            },
+            onImgDrop: (event) {
+              print('Zone 1 onImgDrop: called');
+              setState(() {
+                bytes = event;
+                highlighted1 = false;
+              });
+            },
+          ));
 
   Widget buildZone2(BuildContext context) => Builder(
         builder: (context) => DropzoneView(

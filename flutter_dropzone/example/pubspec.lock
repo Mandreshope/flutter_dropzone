@@ -74,7 +74,7 @@ packages:
     description:
       path: flutter_dropzone_platform_interface
       ref: "feature/on-img-drop"
-      resolved-ref: f5b9f6be0b87f8038fcfe982ba1ebde38ed235e9
+      resolved-ref: "1932f6b71a25abaa76c772ffb0366daf5ad40f27"
       url: "git://github.com/Mandreshope/flutter_dropzone.git"
     source: git
     version: "1.0.3"
@@ -83,7 +83,7 @@ packages:
     description:
       path: flutter_dropzone_web
       ref: "feature/on-img-drop"
-      resolved-ref: f5b9f6be0b87f8038fcfe982ba1ebde38ed235e9
+      resolved-ref: "1932f6b71a25abaa76c772ffb0366daf5ad40f27"
       url: "git://github.com/Mandreshope/flutter_dropzone.git"
     source: git
     version: "1.0.10"

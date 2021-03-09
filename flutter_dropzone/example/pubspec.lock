@@ -65,18 +65,16 @@ packages:
   flutter_dropzone:
     dependency: "direct dev"
     description:
-      path: flutter_dropzone
-      ref: "feature/on-img-drop"
-      resolved-ref: "753168451d3b21c91fb3abee9f91c9853e3989c4"
-      url: "git://github.com/Mandreshope/flutter_dropzone.git"
-    source: git
+      path: ".."
+      relative: true
+    source: path
     version: "1.0.10"
   flutter_dropzone_platform_interface:
     dependency: transitive
     description:
       path: flutter_dropzone_platform_interface
       ref: "feature/on-img-drop"
-      resolved-ref: "753168451d3b21c91fb3abee9f91c9853e3989c4"
+      resolved-ref: f5b9f6be0b87f8038fcfe982ba1ebde38ed235e9
       url: "git://github.com/Mandreshope/flutter_dropzone.git"
     source: git
     version: "1.0.3"
@@ -85,7 +83,7 @@ packages:
     description:
       path: flutter_dropzone_web
       ref: "feature/on-img-drop"
-      resolved-ref: "753168451d3b21c91fb3abee9f91c9853e3989c4"
+      resolved-ref: f5b9f6be0b87f8038fcfe982ba1ebde38ed235e9
       url: "git://github.com/Mandreshope/flutter_dropzone.git"
     source: git
     version: "1.0.10"

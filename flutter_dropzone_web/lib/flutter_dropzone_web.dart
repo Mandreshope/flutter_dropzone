@@ -114,7 +114,7 @@ class FlutterDropzoneView {
       FlutterDropzonePlatform.instance.events.add(DropzoneHoverEvent(viewId));
 
   void _onDrop(MouseEvent event, File data) =>
-      FlutterDropzonePlatform.instance.events
+      FlutterDropzonePlatform.instance.onDropEvents
           .add(DropzoneDropEvent(viewId, data));
 
   Future<void> _onImgDrop(MouseEvent event, String data) async {
@@ -124,7 +124,7 @@ class FlutterDropzoneView {
     try {
       String url = data;
       Uint8List bytes = await _networkImageToBase64(url);
-      FlutterDropzonePlatform.instance.events
+      FlutterDropzonePlatform.instance.onDropEvents
           .add(DropzoneImgDropEvent(viewId, bytes));
     } catch (e) {
       _onError(e.toString());

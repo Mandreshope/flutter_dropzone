@@ -15,13 +15,13 @@ dev_dependencies:
     sdk: flutter
 
   # flutter_dropzone: ^1.0.4
-  # flutter_dropzone:
-  #   path: ../../flutter_dropzone/
-  flutter_dropzone: 
-    git:
-      url: git://github.com/Mandreshope/flutter_dropzone.git
-      ref: feature/on-img-drop
-      path: flutter_dropzone
+  flutter_dropzone:
+    path: ../../flutter_dropzone/
+  # flutter_dropzone: 
+  #   git:
+  #     url: git://github.com/Mandreshope/flutter_dropzone.git
+  #     ref: feature/on-img-drop
+  #     path: flutter_dropzone
   pedantic: ^1.9.0
 
 # dev_dependency_overrides:

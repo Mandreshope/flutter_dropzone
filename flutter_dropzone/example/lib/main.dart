@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -19,6 +20,26 @@ class _MyAppState extends State<MyApp> {
   String message1 = 'Drop something here';
   String message2 = 'Drop something here';
   bool highlighted1 = false;
+  int tick = 0;
+  Timer timer;
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(
+      Duration(seconds: 1),
+      (Timer timer) {
+        setState(() {
+          tick++;
+        });
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -52,57 +73,64 @@ class _MyAppState extends State<MyApp> {
                     children: [
                       buildZone1(context),
                       Center(child: Text(message1)),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Text('widget rebuild time : ' + tick.toString()),
+                      )
                     ],
                   ),
                 ),
               ),
-              Expanded(
-                child: Stack(
-                  children: [
-                    buildZone2(context),
-                    Center(child: Text(message2)),
-                  ],
-                ),
-              ),
+              // Expanded(
+              //   child: Stack(
+              //     children: [
+              //       buildZone2(context),
+              //       Center(child: Text(message2)),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),
       );
 
-  Widget buildZone1(BuildContext context) => Builder(
-        builder: (context) => DropzoneView(
-          operation: DragOperation.copy,
-          cursor: CursorType.grab,
-          onCreated: (ctrl) {
-            controller1 = ctrl;
-            print(controller1.viewId);
-          },
-          onLoaded: () => print('Zone 1 loaded'),
-          onError: (ev) => print('Zone 1 error: $ev'),
-          onHover: () {
-            setState(() => highlighted1 = true);
-            print('Zone 1 hovered');
-          },
-          onLeave: () {
-            setState(() => highlighted1 = false);
-            print('Zone 1 left');
-          },
-          onDrop: (ev) {
-            print('Zone 1 drop: ${ev.name}');
-            setState(() {
-              message1 = '${ev.name} dropped';
-              highlighted1 = false;
-            });
-          },
-          onImgDrop: (event) {
-            print('Zone 1 onImgDrop: called');
-            setState(() {
-              bytes = event;
-              highlighted1 = false;
-            });
-          },
-        ),
-      );
+  Widget buildZone1(BuildContext context) {
+    print('DropzoneView rebuild');
+    return DropzoneView(
+      operation: DragOperation.copy,
+      cursor: CursorType.grab,
+      onCreated: (ctrl) {
+        controller1 = ctrl;
+        print('viewId: ${controller1.viewId}');
+      },
+      onLoaded: () => print('Zone 1 loaded'),
+      onError: (ev) => print('Zone 1 error: $ev'),
+      onHover: () {
+        setState(() => highlighted1 = true);
+        print('Zone 1 hovered');
+      },
+      onLeave: () {
+        setState(() => highlighted1 = false);
+        print('Zone 1 left');
+      },
+      onDrop: (ev) {
+        print('Zone 1 drop: ${ev.name}');
+        setState(() {
+          message1 = '${ev.name} dropped';
+          highlighted1 = false;
+        });
+      },
+      onImgDrop: (event) {
+        print('Zone 1 onImgDrop: called');
+        setState(() {
+          bytes = event;
+          highlighted1 = false;
+        });
+      },
+    );
+  }
 
   Widget buildZone2(BuildContext context) => Builder(
         builder: (context) => DropzoneView(

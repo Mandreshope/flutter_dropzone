@@ -60,7 +60,7 @@ packages:
     description:
       path: flutter_dropzone_platform_interface
       ref: "feature/on-img-drop"
-      resolved-ref: febe4b43757aaf481806cd7b9eb7e80e40b17669
+      resolved-ref: "753168451d3b21c91fb3abee9f91c9853e3989c4"
       url: "git://github.com/Mandreshope/flutter_dropzone.git"
     source: git
     version: "1.0.3"
@@ -122,7 +122,7 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.0"
+    version: "1.11.0"
   plugin_platform_interface:
     dependency: transitive
     description:

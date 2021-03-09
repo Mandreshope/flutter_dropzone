@@ -40,6 +40,7 @@ if (typeof FlutterDropzone === 'undefined') {
         imageUrl = event.dataTransfer.getData('URL');
       }
       this.onImgDrop(event, imageUrl);
+      console.log('js onImgDrop called');
     }
   
     drop_handler(event) {
@@ -56,11 +57,14 @@ if (typeof FlutterDropzone === 'undefined') {
           if (match) {
             var file = event.dataTransfer.items[i].getAsFile();
             this.onDrop(event, file);
+            console.log('js onDrop called');
           }
         }
       } else {
-        for (var i = 0; i < ev.dataTransfer.files.length; i++)
+        for (var i = 0; i < ev.dataTransfer.files.length; i++) {
           this.onDrop(event, event.dataTransfer.files[i]);
+          console.log('js onDrop called');
+        }
       }
     }
   

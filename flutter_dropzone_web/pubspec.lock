@@ -58,9 +58,11 @@ packages:
   flutter_dropzone_platform_interface:
     dependency: "direct main"
     description:
-      path: "../flutter_dropzone_platform_interface"
-      relative: true
-    source: path
+      path: flutter_dropzone_platform_interface
+      ref: "feature/on-img-drop"
+      resolved-ref: febe4b43757aaf481806cd7b9eb7e80e40b17669
+      url: "git://github.com/Mandreshope/flutter_dropzone.git"
+    source: git
     version: "1.0.3"
   flutter_test:
     dependency: "direct dev"
